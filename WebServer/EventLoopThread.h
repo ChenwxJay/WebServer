@@ -10,15 +10,15 @@
 class EventLoopThread :noncopyable
 {
 public:
-    EventLoopThread();
-    ~EventLoopThread();
-    EventLoop* startLoop();
+    EventLoopThread();//构造函数
+    ~EventLoopThread();//析构
+    EventLoop* startLoop();//启动事件循环，返回一个指针
 
 private:
-    void threadFunc();
-    EventLoop *loop_;
+    void threadFunc();//线程函数
+    EventLoop *loop_;//内部含有一个指向loop的指针，保证one thread one loop
     bool exiting_;
     Thread thread_;
-    MutexLock mutex_;
-    Condition cond_;
+    MutexLock mutex_;//互斥锁
+    Condition cond_;//条件变量
 };
