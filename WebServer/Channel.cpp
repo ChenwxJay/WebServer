@@ -11,15 +11,15 @@
 using namespace std;
 
 Channel::Channel(EventLoop *loop):
-    loop_(loop),
+    loop_(loop),//绑定eventloop
     events_(0),
     lastEvents_(0)
 { }
 
-Channel::Channel(EventLoop *loop, int fd):
+Channel::Channel(EventLoop *loop, int fd)://构造函数
     loop_(loop),
-    fd_(fd), 
-    events_(0),
+    fd_(fd),//设置文件描述符
+    events_(0),//绑定的事件，初始为空
     lastEvents_(0)
 { }
 
@@ -29,19 +29,19 @@ Channel::~Channel()
     //close(fd_);
 }
 
-int Channel::getFd()
+int Channel::getFd()//获取fd
 {
     return fd_;
 }
-void Channel::setFd(int fd)
+void Channel::setFd(int fd)//设置fd
 {
     fd_ = fd;
 }
 
-void Channel::handleRead()
+void Channel::handleRead()//绑定在channel上面的读处理函数
 {
-    if (readHandler_)
-    {
+    if (readHandler_)//判空
+    {   //仿函数调用
         readHandler_();
     }
 }
@@ -54,10 +54,10 @@ void Channel::handleWrite()
     }
 }
 
-void Channel::handleConn()
-{
+void Channel::handleConn()//连接处理函数
+{   //连接回调函数
     if (connHandler_)
-    {
+    {   
         connHandler_();
     }
 }
